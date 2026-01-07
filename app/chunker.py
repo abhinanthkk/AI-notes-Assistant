@@ -3,7 +3,7 @@ Text chunking module with overlap support.
 Chunks text into smaller pieces for embedding generation.
 """
 
-from typing import List, Dict
+from typing import List, Dict, Any
 from app.utils import count_words, split_into_sentences
 
 
@@ -42,9 +42,9 @@ def chunk_text(
         # If adding this sentence would exceed chunk size
         if current_word_count + sentence_words > chunk_size and current_chunk:
             # Save current chunk
-            chunk_text = ' '.join(current_chunk)
-            if chunk_text.strip():
-                chunks.append(chunk_text.strip())
+            chunk_str = ' '.join(current_chunk)
+            if chunk_str.strip():
+                chunks.append(chunk_str.strip())
             
             # Start new chunk with overlap
             # Keep last sentences that fit in overlap window
@@ -69,19 +69,19 @@ def chunk_text(
     
     # Add final chunk
     if current_chunk:
-        chunk_text = ' '.join(current_chunk)
-        if chunk_text.strip():
-            chunks.append(chunk_text.strip())
+        chunk_str = ' '.join(current_chunk)
+        if chunk_str.strip():
+            chunks.append(chunk_str.strip())
     
     return chunks
 
 
 def chunk_pages(
-    pages_data: List[Dict[str, any]],
+    pages_data: List[Dict[str, Any]],
     pdf_name: str,
     chunk_size: int = 500,
     overlap: int = 100
-) -> List[Dict[str, any]]:
+) -> List[Dict[str, Any]]:
     """
     Chunk pages from a PDF into smaller pieces.
     
@@ -107,13 +107,13 @@ def chunk_pages(
         chunks = chunk_text(page_text, chunk_size=chunk_size, overlap=overlap)
         
         # Create chunk metadata
-        for chunk_index, chunk_text in enumerate(chunks):
+        for chunk_index, chunk_content in enumerate(chunks):
             all_chunks.append({
                 'pdf_name': pdf_name,
                 'page_number': page_number,
                 'chunk_index': chunk_index,
-                'chunk_text': chunk_text,
-                'word_count': count_words(chunk_text)
+                'chunk_text': chunk_content,
+                'word_count': count_words(chunk_content)
             })
     
     return all_chunks
