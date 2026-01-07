@@ -123,35 +123,54 @@ If you see `(venv)` in your terminal prompt, you're in the virtual environment.
 - Metadata (chunk info, page numbers) is stored as JSON
 - The app automatically reloads existing indexes on startup
 
-## 🚢 Deployment to GitHub
+## 🚢 Deployment
 
-### Initial Setup
+### Deploy to Streamlit Cloud (Recommended)
 
-1. **Initialize Git repository** (if not already done)
-   ```bash
-   git init
-   ```
+Streamlit Cloud offers free hosting for Streamlit apps directly from your GitHub repository.
 
-2. **Add all files**
+#### Prerequisites
+- Your code must be pushed to a GitHub repository
+- You need a GitHub account
+
+#### Steps
+
+1. **Push your code to GitHub** (if not already done)
    ```bash
    git add .
+   git commit -m "Prepare for deployment"
+   git push origin main
    ```
 
-3. **Commit**
-   ```bash
-   git commit -m "Initial commit: AI Notes Q&A Assistant"
-   ```
+2. **Go to Streamlit Cloud**
+   - Visit [share.streamlit.io](https://share.streamlit.io)
+   - Sign in with your GitHub account
 
-4. **Create a new repository on GitHub**
-   - Go to GitHub and create a new repository
-   - Do NOT initialize with README, .gitignore, or license (we already have these)
+3. **Deploy your app**
+   - Click "New app"
+   - Select your repository: `abhinanthkk/AI-notes-Assistant`
+   - Select branch: `main`
+   - Main file path: `app/main.py`
+   - Click "Deploy"
 
-5. **Connect and push**
-   ```bash
-   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-   git branch -M main
-   git push -u origin main
-   ```
+4. **Wait for deployment**
+   - Streamlit Cloud will install dependencies from `requirements.txt`
+   - First deployment may take 5-10 minutes
+   - You'll get a public URL like: `https://your-app-name.streamlit.app`
+
+#### Important Notes for Streamlit Cloud
+
+- **Storage**: The `storage/` directory is ephemeral on Streamlit Cloud. Data may be lost when the app restarts. For production, consider using cloud storage (S3, Google Cloud Storage, etc.)
+- **File Uploads**: Users can upload PDFs, but they won't persist across app restarts
+- **Memory**: Free tier has memory limits. Large PDFs may cause issues
+- **Auto-deploy**: Every push to the main branch automatically redeploys the app
+
+### Local Deployment
+
+For local deployment, simply run:
+```bash
+streamlit run app/main.py
+```
 
 ### Notes for GitHub
 

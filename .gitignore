@@ -28,6 +28,7 @@ ENV/
 
 # Streamlit
 .streamlit/
+!.streamlit/config.toml
 
 # Storage (user data)
 storage/
