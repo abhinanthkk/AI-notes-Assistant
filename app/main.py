@@ -5,11 +5,28 @@ Provides UI for PDF upload, processing, and question answering.
 
 import streamlit as st
 import os
+import sys
 import tempfile
 from typing import List, Dict
 import time
 import numpy as np
 
+# Add parent directory to path to allow imports
+# This works for both local development and Streamlit Cloud
+_current_file = os.path.abspath(__file__)
+_current_dir = os.path.dirname(_current_file)
+_project_root = os.path.dirname(_current_dir)
+
+# Add project root to Python path (ensure it's a string and exists)
+if _project_root and os.path.exists(_project_root) and _project_root not in sys.path:
+    sys.path.insert(0, _project_root)
+
+# Also try adding the current working directory as fallback
+_cwd = os.getcwd()
+if _cwd and _cwd not in sys.path:
+    sys.path.insert(0, _cwd)
+
+# Import modules
 from app.pdf_reader import extract_text_from_pdfs
 from app.chunker import chunk_pages
 from app.embeddings import generate_chunk_embeddings, generate_query_embedding, get_embedding_model
