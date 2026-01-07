@@ -5,7 +5,7 @@ Generates embeddings for text chunks and queries.
 
 from sentence_transformers import SentenceTransformer
 import numpy as np
-from typing import List, Union
+from typing import List, Union, Dict, Any
 import os
 
 
@@ -97,7 +97,7 @@ def get_embedding_model() -> EmbeddingModel:
     return _embedding_model
 
 
-def generate_chunk_embeddings(chunks: List[Dict[str, any]]) -> np.ndarray:
+def generate_chunk_embeddings(chunks: List[Dict[str, Any]]) -> np.ndarray:
     """
     Generate embeddings for a list of text chunks.
     
