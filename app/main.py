@@ -26,6 +26,13 @@ _cwd = os.getcwd()
 if _cwd and _cwd not in sys.path:
     sys.path.insert(0, _cwd)
 
+# Verify faiss is available before importing modules that depend on it
+try:
+    import faiss
+except ImportError as e:
+    # This will be caught when the app tries to use faiss-dependent modules
+    pass
+
 # Import modules
 from app.pdf_reader import extract_text_from_pdfs
 from app.chunker import chunk_pages
