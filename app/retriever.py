@@ -3,9 +3,16 @@ FAISS-based retrieval module for semantic search.
 Handles index building and similarity search.
 """
 
-import faiss
+# Import faiss with error handling
+try:
+    import faiss
+except ImportError:
+    raise ImportError(
+        "faiss-cpu is not installed. Please install it with: pip install faiss-cpu"
+    )
+
 import numpy as np
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Any
 import os
 
 
@@ -26,7 +33,7 @@ class FAISSRetriever:
         self.chunks_metadata = []
         self.is_built = False
     
-    def build_index(self, embeddings: np.ndarray, chunks_metadata: List[Dict[str, any]]):
+    def build_index(self, embeddings: np.ndarray, chunks_metadata: List[Dict[str, Any]]):
         """
         Build FAISS index from embeddings and metadata.
         
@@ -64,7 +71,7 @@ class FAISSRetriever:
         self.chunks_metadata = chunks_metadata.copy()
         self.is_built = True
     
-    def search(self, query_embedding: np.ndarray, top_k: int = 5) -> List[Dict[str, any]]:
+    def search(self, query_embedding: np.ndarray, top_k: int = 5) -> List[Dict[str, Any]]:
         """
         Search for most similar chunks.
         

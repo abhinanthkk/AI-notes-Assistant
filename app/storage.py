@@ -5,7 +5,16 @@ Handles saving and loading of all persistent data.
 
 import os
 import json
-from typing import List, Dict, Optional, Tuple
+from typing import List, Dict, Optional, Tuple, Any
+
+# Import faiss with error handling
+try:
+    import faiss
+except ImportError:
+    raise ImportError(
+        "faiss-cpu is not installed. Please install it with: pip install faiss-cpu"
+    )
+
 from app.retriever import FAISSRetriever
 
 
@@ -55,7 +64,7 @@ class StorageManager:
     def save_index_data(
         self,
         retriever: FAISSRetriever,
-        chunks_metadata: List[Dict[str, any]],
+        chunks_metadata: List[Dict[str, Any]],
         index_name: str = "main_index"
     ):
         """
@@ -91,7 +100,7 @@ class StorageManager:
     def load_index_data(
         self,
         index_name: str = "main_index"
-    ) -> Optional[Tuple[FAISSRetriever, List[Dict[str, any]]]]:
+    ) -> Optional[Tuple[FAISSRetriever, List[Dict[str, Any]]]]:
         """
         Load FAISS index and metadata from disk.
         
